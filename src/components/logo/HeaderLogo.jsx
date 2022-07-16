@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const HeaderLogo = () => {
 
     return(
         <LogoDiv>
-            <img src='/JoologoHeader.PNG'></img>
+            <Link to='/'><img src='/JoologoHeader.PNG'></img></Link>
         </LogoDiv>
     )
 }

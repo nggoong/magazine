@@ -6,6 +6,23 @@ import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import store from './redux/configStore';
 import { Provider } from 'react-redux';
+import { userActions } from '../src/redux/module/userReducer'
+
+
+const loadLoginInfo = () => {
+  try {
+    const userInfo = sessionStorage.getItem('user__login');
+    if(!userInfo) return;
+    else {
+      store.dispatch(userActions.setUserInfo(JSON.parse(userInfo)));
+    }
+  }
+  catch(e) {
+    console.log('web storage error!!');
+  }
+}
+
+loadLoginInfo();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

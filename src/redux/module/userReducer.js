@@ -31,7 +31,12 @@ const userSlice = createSlice({
     name:'user',
     initialState,
     reducers: {
-
+        setUserInfo: (state, action) => {
+            state.userInfo = action.payload;
+        },
+        setDefaultUserInfo: (state) => {
+            state.userInfo = null;
+        }
     },
     extraReducers: {
         [loginFB.fulfilled.type]: (state, action) => {

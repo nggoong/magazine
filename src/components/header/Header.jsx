@@ -1,10 +1,26 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import HeaderLogo from '../logo/HeaderLogo';
+import { useDispatch } from 'react-redux';
+import { userActions } from '../../redux/module/userReducer';
+import { auth } from '../../shared/firebase';
+import { signOut } from 'firebase/auth';
 import { CgAddR } from 'react-icons/cg';
 import {IoMdContact, IoMdLogOut} from 'react-icons/io'
 
+
 const Header = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const logoutBtnClickHandler = () => {
+        signOut(auth);
+        dispatch(userActions.setDefaultUserInfo());
+        sessionStorage.removeItem('user__login');
+        alert('로그아웃 되었습니다.');
+        navigate('/');
+    }
 
 
     return(
@@ -12,8 +28,8 @@ const Header = () => {
             <HeaderContents>
                 <HeaderLogo/>
                 <HeaderActions>
-                    <p><CgAddR/></p>
-                    <p><IoMdLogOut/></p>
+                    <p><Link to='/posting'><CgAddR/></Link></p>
+                    <p onClick={logoutBtnClickHandler}><IoMdLogOut/></p>
                     <p><IoMdContact/></p>
                 </HeaderActions>
             </HeaderContents>
@@ -38,6 +54,17 @@ const HeaderWrapper = styled.div`
         margin:0;
         padding:0;
         font-size:28px;
+        display:flex;
+        align-items:center;
+        cursor:pointer;
+        a {
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            text-decoration:none;
+            color:black;
+        }
+        
     }
 `
 

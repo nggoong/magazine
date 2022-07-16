@@ -26,7 +26,7 @@ const Signup = () => {
         const user = await createUserWithEmailAndPassword(auth, email, password);
         console.log(user);
         const dbCollection = collection(db, 'users');
-        const userDoc = await addDoc(dbCollection, {user_id:user.user.email, nickname:nickname})
+        const userDoc = await addDoc(dbCollection, {user_email:user.user.email, user_nickname:nickname})
         console.log(userDoc.id);
         alert('회원 가입이 완료되었습니다.')
         navigate('/member/login');

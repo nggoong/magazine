@@ -1,10 +1,38 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { loginFB } from '../../redux/module/userReducer';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 
 const Login = () => {
+    const [inputs, setInputs] = useState({
+        email:'',
+        password:''
+    })
     const firstInputRef = useRef(null);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const inputChangeHandler = (e) => {
+        const { name, value } = e.target;
+        setInputs({
+            ...inputs,
+            [name]:value
+        })
+    }
+
+    const loginBtnClickHandler = () => {
+        const { email, password } = inputs;
+        try {
+            dispatch(loginFB({email:email, password:password}));
+            navigate('/');
+        }
+        catch(e) {
+            console.log(e);
+        }
+    }
 
     useEffect(()=> {
         firstInputRef.current.focus();
@@ -14,12 +42,12 @@ const Login = () => {
         <LoginWrapper>
             <LoginBox>
                 <div className='logo-area'>
-                    <img src='/Joologo.PNG'></img>
+                    <img alt='logo-image' src='/Joologo.PNG'></img>
                 </div>
-                <input type='email' ref={firstInputRef} placeholder='email'/>
-                <input type='password' placeholder='password'/>
+                <input type='email' ref={firstInputRef} placeholder='email' name='email' value={inputs.email} onChange={inputChangeHandler}/>
+                <input type='password' placeholder='password' name='password' value={inputs.password} onChange={inputChangeHandler}/>
                 <LinkArea><Link to='/member/signup'>회원이 아니신가요?</Link></LinkArea>
-                <button>로그인</button>
+                <button onClick={loginBtnClickHandler}>로그인</button>
             </LoginBox>
         </LoginWrapper>
 

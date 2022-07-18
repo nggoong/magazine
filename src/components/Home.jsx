@@ -8,10 +8,11 @@ const Home = () => {
     const postingList = useSelector(state=> state.posting.postings);
     const dispatch = useDispatch();
     useEffect(()=> {
+        dispatch(postingActions.setDefaultPostings());
         dispatch(fetchPosting());
         console.log(postingList)
         return(()=> {
-            dispatch(postingActions.setDefaultPostings());
+            // dispatch(postingActions.setDefaultPostings());
             dispatch(fsActions.setDefaultLastVisible());
         })
     }, [])

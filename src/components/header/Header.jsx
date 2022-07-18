@@ -30,7 +30,7 @@ const Header = () => {
                 <HeaderActions>
                     <p><Link to='/posting'><CgAddR/></Link></p>
                     <p onClick={logoutBtnClickHandler}><IoMdLogOut/></p>
-                    <p><IoMdContact/></p>
+                    <p><Link to='/mypage'><IoMdContact/></Link></p>
                 </HeaderActions>
             </HeaderContents>
         </HeaderWrapper>

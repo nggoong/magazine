@@ -7,6 +7,7 @@ import Header from './components/header/Header';
 import Login from './components/users/Login';
 import Signup from './components/users/Signup';
 import PostingInputs from './components/posting/PostingInputs';
+import PersonalViewer from './components/mypage/PersonalViewer';
 import styled from 'styled-components';
 function App() {
   const user = useSelector(state => state.user.userInfo);
@@ -21,6 +22,7 @@ function App() {
             <Route path='/' element={user?<Home/>:<Login/>}/>
             <Route path='/member/Signup' element={<Signup/>}/>
             <Route path='/posting' element={<PostingInputs/>}/>
+            <Route path='/mypage' element={<PersonalViewer/>}/>
           </Routes>
         </Contents>
     </div>

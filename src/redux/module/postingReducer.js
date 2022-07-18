@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { db, storage } from '../../shared/firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { addDoc, collection, getDocs, query, orderBy, limit, startAfter, getDoc } from 'firebase/firestore';
+import { addDoc, collection, getDocs, query, orderBy, limit, startAfter, getDoc, where } from 'firebase/firestore';
 import { fsActions } from "./fsReducer";
 
 const initialState = {
@@ -29,6 +29,26 @@ export const fetchPosting = createAsyncThunk('posting/fetchPosting', async (_, {
         let new_obj = {...doc.data(), docID:doc.id};
         new_data.push(new_obj);
     })
+
+    return new_data;
+})
+
+export const personalFetchPosting = createAsyncThunk('posting/fetchPosting', async (_, {getState, dispatch}) => {
+    const postingCollection = collection(db, 'posting');
+    let res;
+    const user_email = getState().user.userInfo.user_email;
+    console.log(user_email);
+    res = await(getDocs(query(postingCollection, where('user_email', '==', user_email)))) // orderBy와 where 같이 못씀..
+    console.log(res);
+    let new_data = [];
+    res.forEach((doc)=> {
+        let new_obj = {...doc.data(), docID:doc.id};
+        new_data.push(new_obj);
+    })
+    // orderBy와 where 같이 사용 불가 >> 직접 정렬
+    new_data.sort((a, b)=> b.timestamp - a.timestamp)
+
+    console.log(new_data);
 
     return new_data;
 })
@@ -76,6 +96,9 @@ const postingSlice = createSlice({
     extraReducers: {
         [fetchPosting.fulfilled.type]: (state, action) => {
             state.postings = [...state.postings, ...action.payload]; // concat
+        },
+        [personalFetchPosting.fulfilled.type]: (state, action) => {
+            state.postings = [...state.postings, ...action.payload];
         }
     }
 })

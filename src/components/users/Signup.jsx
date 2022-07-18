@@ -29,7 +29,7 @@ const Signup = () => {
         const userDoc = await addDoc(dbCollection, {user_email:user.user.email, user_nickname:nickname})
         console.log(userDoc.id);
         alert('회원 가입이 완료되었습니다.')
-        navigate('/member/login');
+        navigate('/');
     }
 
     useEffect(()=> {

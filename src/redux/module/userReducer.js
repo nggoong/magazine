@@ -7,7 +7,7 @@ const initialState = {
     userInfo:null
 }
 
-export const loginFB = createAsyncThunk('user/loginFB', async (information, { getState, dispatch }) => {
+export const loginFB = createAsyncThunk('user/loginFB', async (information) => {
     let result;
     const { email, password } = information;
     const user = await signInWithEmailAndPassword(auth, email, password);

@@ -49,6 +49,7 @@ const HeaderWrapper = styled.div`
     border-bottom: 2px solid rgb(240, 241, 242);
     display:flex;
     justify-content:center;
+    z-index:1000;
 
     p {
         margin:0;

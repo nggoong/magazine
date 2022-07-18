@@ -1,6 +1,7 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import GlobalStyle from './components/GlobalStyle';
 import Home from './components/Home';
 import Header from './components/header/Header';
 import Login from './components/users/Login';
@@ -13,6 +14,7 @@ function App() {
   
   return (
     <div className="App">
+      <GlobalStyle />
         <Header/>
         <Contents>
           <Routes>
@@ -29,7 +31,7 @@ export default App;
 
 const Contents = styled.div`
   width:90%;
-  background:yellow;
+  /* background:yellow; */
   padding-top:55px;
   margin:0 auto;
   max-width:470px;

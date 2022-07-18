@@ -1,13 +1,17 @@
 import React, { useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { addPosting } from '../../redux/module/postingReducer';
 
 const PostingInputs = () => {
     const [inputs, setInputs] = useState({
         image:null,
     })
-
     const imageRef = useRef(null);
-
+    const textAreaRef = useRef(null);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const setThumbnail = (e) => {
         let files = e.target.files;
@@ -26,6 +30,11 @@ const PostingInputs = () => {
         }
     }
 
+    const btnClickHandler = async () => {
+        await dispatch(addPosting({image:inputs.image, text:textAreaRef.current.value}));
+        navigate('/');
+    }
+
     return(
         <InputsWrapper>
         <ImageBox isShow={inputs.image}>
@@ -34,8 +43,9 @@ const PostingInputs = () => {
         </ImageBox>
         <InputBox>
             <input type='file' name='image' onChange={setThumbnail}/>
-            <textarea name='posting_content'/>
+            <textarea name='posting_content' ref={textAreaRef}/>
         </InputBox>
+        <button onClick={btnClickHandler}>확인</button>
         </InputsWrapper>
     )
 }
@@ -64,12 +74,12 @@ const ImageBox = styled.div`
     img {
         width: 100%;
         height: 100%;
-        object-fit:contain;
+        object-fit:fill;
         display:${props=>props.isShow||'none'};
     }
 
     @media screen and (min-width:490px) {
-        height:50vh;
+        height:60vh;
     }
 `
 

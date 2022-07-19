@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -12,15 +13,8 @@ import { fsActions } from '../../redux/module/fsReducer';
 
 const PersonalPostingCard = (item, url, text) => {
   const dispatch = useDispatch();
-  // useEffect(()=> {
-  //   console.log('dhlfa;s : ', item);
-  //   console.log(url);
-  //   console.log(text);
-  // }, [])
-  
+  const navigate = useNavigate();
   const deleteHandler = async () => {
-    // console.log('delete handler doc id : ', item.item.docID);
-    // console.log(item.docID);
     await dispatch(deletePosting({posting_id: item.item.docID}));
     dispatch(postingActions.setDefaultPostings());
     dispatch(fsActions.setDefaultLastVisible());
@@ -32,7 +26,6 @@ const PersonalPostingCard = (item, url, text) => {
           <CardMedia
             component="img"
             height="400"
-            // image={item.image_url}
             src={item.url}
             alt="green iguana"
           />
@@ -43,7 +36,7 @@ const PersonalPostingCard = (item, url, text) => {
           </CardContent>
           <CardActions>
             <Button size="small" onClick={deleteHandler}>Delete</Button>
-            <Button size="small">Edit</Button>
+            <Button size="small" onClick={()=> navigate(`/posting/edit/${item.item.docID}`)}>Edit</Button>
           </CardActions>
         </Card>
       );

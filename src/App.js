@@ -9,6 +9,7 @@ import Signup from './components/users/Signup';
 import PostingInputs from './components/posting/PostingInputs';
 import PersonalViewer from './components/mypage/PersonalViewer';
 import styled from 'styled-components';
+import IsLogin from './IsLogin';
 function App() {
   const user = useSelector(state => state.user.userInfo);
   const navigate = useNavigate();
@@ -16,15 +17,18 @@ function App() {
   return (
     <div className="App">
       <GlobalStyle />
+        {/* <IsLogin> */}
         <Header/>
         <Contents>
           <Routes>
             <Route path='/' element={user?<Home/>:<Login/>}/>
             <Route path='/member/Signup' element={<Signup/>}/>
-            <Route path='/posting' element={<PostingInputs/>}/>
+            <Route path='/posting' element={<PostingInputs isEdit={false}/>}/>
             <Route path='/mypage' element={<PersonalViewer/>}/>
+            <Route path='/posting/edit/:id' element={<PostingInputs isEdit={true}/>}/>
           </Routes>
         </Contents>
+        {/* </IsLogin> */}
     </div>
   );
 }

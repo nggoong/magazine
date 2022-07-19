@@ -7,12 +7,14 @@ import { fsActions } from '../redux/module/fsReducer';
 const Home = () => {
     const postingList = useSelector(state=> state.posting.postings);
     const dispatch = useDispatch();
+    console.log('home render')
     useEffect(()=> {
-        dispatch(postingActions.setDefaultPostings());
+        // dispatch(postingActions.setDefaultPostings());
+        console.log('home effect')
         dispatch(fetchPosting());
-        console.log(postingList)
         return(()=> {
-            // dispatch(postingActions.setDefaultPostings());
+            console.log('home reutnr')
+            dispatch(postingActions.setDefaultPostings());
             dispatch(fsActions.setDefaultLastVisible());
         })
     }, [])

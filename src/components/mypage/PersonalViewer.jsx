@@ -2,22 +2,21 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { personalFetchPosting, postingActions } from '../../redux/module/postingReducer';
+import { fsActions } from '../../redux/module/fsReducer';
 import PersonalPostingCard from './PersonalPostingCard';
 
 const PersonalViewer = () => {
     const dispatch = useDispatch();
     const personalPostings = useSelector(state => state.posting.postings);
-
     useEffect(()=> {
-        dispatch(postingActions.setDefaultPostings());
         dispatch(personalFetchPosting());
+        // console.log(personalPostings);
 
         return(()=> {
-            dispatch(postingActions.setDefaultPostings());
+            dispatch(postingActions.setDefaultPostings()); // 홈으로 이동할 때 스토어 비워주기.
+            dispatch(fsActions.setDefaultLastVisible());
         })
     }, [])
-    // 왜 되는거지?
-    // HOME 컴포넌트에서 여기로 이동할 때 홈 컴포넌트 언마운트 될 때 스토어 초기화 하는데,,
 
     return(
         <PersonalViewerWrapper>

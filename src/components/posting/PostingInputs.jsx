@@ -10,7 +10,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 const PostingInputs = ({ isEdit }) => {
     const [inputs, setInputs] = useState({
         image:null,
-        layout:null,
+        layout:'sero',
     })
     const [isImageChanged, setIsImageChanged] = useState(false);
     const imageRef = useRef(null);
@@ -19,6 +19,7 @@ const PostingInputs = ({ isEdit }) => {
         image_url:'',
         like:0,
         timestamp:0,
+        layout:'',
         user_email:'',
         user_nickname:''
     })
@@ -47,7 +48,7 @@ const PostingInputs = ({ isEdit }) => {
 
     const btnClickHandler = async () => {
         if(!isEdit) {
-            await dispatch(addPosting({image:inputs.image, text:textAreaRef.current.value})).catch(console.error);
+            await dispatch(addPosting({image:inputs.image, text:textAreaRef.current.value, layout:inputs.layout})).catch(console.error);
             navigate('/');
         }
         else {
@@ -62,6 +63,7 @@ const PostingInputs = ({ isEdit }) => {
                 user_email: edit_new_data.current.user_email,
                 user_nickname: edit_new_data.current.user_nickname,
                 text: textAreaRef.current.value,
+                layout:inputs.layout,
                 image_url:isImageChanged? file_url:inputs.image
             }
             await dispatch(editPosting({posting_id:params.id, new_data:data})).catch(console.error);
@@ -85,7 +87,7 @@ const PostingInputs = ({ isEdit }) => {
                 const imageCurrent = imageRef.current;
                 const textAreaCurrent = textAreaRef.current;
                 const doc = await getPostingInfo(params.id);
-                setInputs({...inputs, image:doc.image_url});
+                setInputs({image:doc.image_url, layout:doc.layout});
                 imageCurrent.setAttribute('src', doc.image_url);
                 textAreaCurrent.value = doc.text;
                 edit_new_data.current.like = doc.like;
@@ -108,20 +110,20 @@ const PostingInputs = ({ isEdit }) => {
             <input type='file' name='image' onChange={setThumbnail}/>
             <textarea name='posting_content' ref={textAreaRef}/>
         </InputBox>
-        <RadioButtonArea>
+        <RadioButtonArea onChange={(e)=>setInputs({...inputs, [e.target.name]:e.target.value})} isEdit={isEdit}>
         <input type="radio" id="contactChoice1"
-     name="layout" value="email" checked/>
-    <label for="contactChoice1">세로</label>
+            name="layout" value="sero"/>
+        <label for="contactChoice1">세로</label>
 
-    <input type="radio" id="contactChoice2"
-     name="layout" value="phone"/>
-    <label for="contactChoice2">가로</label>
+        <input type="radio" id="contactChoice2"
+            name="layout" value="garo"/>
+        <label for="contactChoice2">가로</label>
 
-    <input type="radio" id="contactChoice3"
-     name="layout" value="mail"/>
-    <label for="contactChoice3">가로(역순)</label>
+        <input type="radio" id="contactChoice3"
+            name="layout" value="garo_reverse"/>
+        <label for="contactChoice3">가로(역순)</label>
         </RadioButtonArea>
-        <button onClick={btnClickHandler}>확인</button>
+            <button onClick={btnClickHandler}>확인</button>
         </InputsWrapper>
     )
 }
@@ -169,6 +171,7 @@ const InputBox = styled.form`
 const RadioButtonArea = styled.div`
     width:100%;
     background:yellow;
+    display:${props=>props.isEdit === true?'none':'block'}
     /* height:10px; */
 
 `

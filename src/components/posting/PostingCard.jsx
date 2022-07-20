@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { fetchPosting } from '../../redux/module/postingReducer';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const PostingCard = ({ item, nickname, text, url, idx, length }) => {
+const PostingCard = ({ item, nickname, text, url, idx, length, layout }) => {
+    console.log(layout);
 
     const [target, setTarget] = useState(null);
     const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const PostingCard = ({ item, nickname, text, url, idx, length }) => {
     return(
         <PostingCardWrapper ref={idx === length - 1 ? setTarget : null}>
             <PostingCardHeader><p>{nickname}</p></PostingCardHeader>
+            <PostingCardContent content_layout={layout}>
             <PostingCardImage>
                 <img src={url} alt="image" />
             </PostingCardImage>
@@ -38,6 +40,7 @@ const PostingCard = ({ item, nickname, text, url, idx, length }) => {
                 
                 <p>{text}</p>
             </PostingText>
+            </PostingCardContent>
         </PostingCardWrapper>
     )
 }
@@ -54,6 +57,26 @@ const PostingCardWrapper = styled.div`
     margin-bottom:20px;
     user-select:none;
     background:white;
+`
+const PostingCardContent = styled.div`
+${props=> {
+    if(props.content_layout === 'garo') {
+        return css`
+            display:flex;
+        `
+    }
+    else if(props.content_layout === 'garo_reverse') {
+        return css`
+            display:flex;
+            flex-direction:row-reverse;
+        `
+    }
+    else if(props.content_layout === 'sero') {
+        return css`
+            display:block;
+        `
+    }
+}}
 `
 const PostingCardHeader = styled.div`
     width:100%;

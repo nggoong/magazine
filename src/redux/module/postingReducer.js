@@ -54,7 +54,7 @@ export const personalFetchPosting = createAsyncThunk('posting/fetchPosting', asy
 })
 
 export const addPosting = createAsyncThunk('posting/addPosting', async (information, {getState, dispatch})=> {
-    const {image, text} = information;
+    const {image, text, layout} = information;
     const uploaded_file = await uploadBytes(ref(storage, `images/${image.name}`), image);
 
     // 이미지 다운로드 url 저장하기 위해 받아옴
@@ -70,6 +70,7 @@ export const addPosting = createAsyncThunk('posting/addPosting', async (informat
     const new_data = {
         image_url:file_url,
         text:text,
+        layout:layout,
         like:0,
         user_email: author_info.user_email,
         user_nickname: author_info.user_nickname,

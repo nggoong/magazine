@@ -25,6 +25,10 @@ const Login = () => {
 
     const loginBtnClickHandler = () => {
         const { email, password } = inputs;
+        if(!email || !password) {
+            alert('아이디와 비밀번호를 모두 채워주세요!!');
+            return;
+        }
         try {
             dispatch(loginFB({email:email, password:password}));
             navigate('/');
@@ -46,7 +50,7 @@ const Login = () => {
                 </div>
                 <input type='email' ref={firstInputRef} placeholder='email' name='email' value={inputs.email} onChange={inputChangeHandler}/>
                 <input type='password' placeholder='password' name='password' value={inputs.password} onChange={inputChangeHandler}/>
-                <LinkArea><Link to='/member/signup'>회원이 아니신가요?</Link></LinkArea>
+                <div className='go-signup-link'><LinkArea><Link to='/member/signup'>회원이 아니신가요?</Link></LinkArea></div>
                 <button onClick={loginBtnClickHandler}>로그인</button>
             </LoginBox>
         </LoginWrapper>
@@ -66,13 +70,14 @@ export const LoginWrapper = styled.div`
     width:100vw;
     height:100vh;
     background:white;
+    z-index:100;
     
 `
 
 export const LoginBox = styled.div`
     display:flex;
     justify-content:center;
-    align-items:center;
+    /* align-items:center; */
     flex-direction:column;
     width:80%;
     max-width:470px;
@@ -86,6 +91,14 @@ export const LoginBox = styled.div`
         padding:20px;
         box-sizing:border-box;
     }
+    .go-signup-link {
+        margin:0 auto;
+        a {
+            color:rgb(9, 47, 237);
+            font-weight:bold;
+            text-decoration:none;
+        }
+    }
     button {
         width:100%;
         border-radius:10px;
@@ -93,6 +106,7 @@ export const LoginBox = styled.div`
         background:#3d5afe;
         color:white;
         font-weight: bold;
+        cursor:pointer;
     }
     .logo-area {
         box-sizing:border-box;

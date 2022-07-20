@@ -10,9 +10,14 @@ const initialState = {
 export const loginFB = createAsyncThunk('user/loginFB', async (information) => {
     let result;
     const { email, password } = information;
-    const user = await signInWithEmailAndPassword(auth, email, password);
-    console.log(user);
+    let user;
 
+    try {
+        user = await signInWithEmailAndPassword(auth, email, password);
+    }
+    catch(e) {
+        alert('비밀번호가 잘못되었거나 등록되지 않은 이메일입니다.')
+    }
     const queryData = query(collection(db, 'users'), where('user_email', '==', user.user.email));
     const userDocs = await getDocs(queryData);
 

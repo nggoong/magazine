@@ -35,7 +35,7 @@ const PersonalPostingCard = (item, url, text) => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small" onClick={deleteHandler}>Delete</Button>
+            <Button size="small" onClick={deleteHandler} color="error">Delete</Button>
             <Button size="small" onClick={()=> navigate(`/posting/edit/${item.item.docID}`)}>Edit</Button>
           </CardActions>
         </Card>

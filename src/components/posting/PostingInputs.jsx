@@ -7,10 +7,19 @@ import styled from 'styled-components';
 import { addPosting, editPosting } from '../../redux/module/postingReducer';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
+const validation = (inputs, text) => {
+    if(!inputs.image || !inputs.layout || !text) {
+        alert('폼을 다 채워주세요');
+        return false;
+    }
+
+    return true;
+}
+
 const PostingInputs = ({ isEdit }) => {
     const [inputs, setInputs] = useState({
         image:null,
-        layout:'sero',
+        layout:null,
     })
     const [isImageChanged, setIsImageChanged] = useState(false);
     const imageRef = useRef(null);
@@ -48,8 +57,14 @@ const PostingInputs = ({ isEdit }) => {
 
     const btnClickHandler = async () => {
         if(!isEdit) {
-            await dispatch(addPosting({image:inputs.image, text:textAreaRef.current.value, layout:inputs.layout})).catch(console.error);
-            navigate('/');
+            const isValid = validation(inputs, textAreaRef.current.value);
+            if(!isValid) {
+                return;
+            }
+            else {
+                await dispatch(addPosting({image:inputs.image, text:textAreaRef.current.value, layout:inputs.layout})).catch(console.error);
+                navigate('/');
+            }
         }
         else {
             const uploaded_file = await uploadBytes(ref(storage, `images/${inputs.image.name}`), inputs.image);
@@ -132,6 +147,10 @@ export default PostingInputs;
 
 const InputsWrapper = styled.div`
     width:100%;
+    button {
+        display:block;
+        margin:0 auto;
+    }
 `
 
 const ImageBox = styled.div`
@@ -170,7 +189,6 @@ const InputBox = styled.form`
 
 const RadioButtonArea = styled.div`
     width:100%;
-    background:yellow;
     display:${props=>props.isEdit === true?'none':'block'}
     /* height:10px; */
 

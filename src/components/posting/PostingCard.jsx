@@ -77,6 +77,10 @@ ${props=> {
         `
     }
 }}
+
+@media screen and (max-width:490px) {
+    display:block;
+}
 `
 const PostingCardHeader = styled.div`
     width:100%;
@@ -92,6 +96,7 @@ const PostingCardImage = styled.div`
     background:lightgray;
     border-radius:10px;
     margin-bottom:10px;
+    flex-shrink:1;
 
     @media screen and (min-width:450px) {
         height:70vh;
@@ -116,6 +121,7 @@ const PostingText = styled.div`
     padding-left:10px;
     gap:5px;
     width:100%;
+    flex-shrink:3;
     
 
 `

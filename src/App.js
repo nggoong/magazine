@@ -19,6 +19,7 @@ function App() {
       <GlobalStyle />
         {/* <IsLogin> */}
         <Header/>
+        {/* <Suspense fallback={<Loading/>}> */}
         <Contents>
           <Routes>
             <Route path='/' element={user?<Home/>:<Login/>}/>
@@ -28,6 +29,7 @@ function App() {
             <Route path='/posting/edit/:id' element={<PostingInputs isEdit={true}/>}/>
           </Routes>
         </Contents>
+        {/* </Suspense> */}
         {/* </IsLogin> */}
     </div>
   );
@@ -40,5 +42,5 @@ const Contents = styled.div`
   /* background:yellow; */
   padding-top:55px;
   margin:0 auto;
-  max-width:470px;
+  max-width:1000px;
 `

@@ -35,7 +35,7 @@ const PostingCard = ({ item, nickname, text, url, idx, length }) => {
             </PostingCardImage>
             {/* <PostingButtons>❤</PostingButtons> */}
             <PostingText>
-                <p className='text-nickname'>{nickname}</p>
+                
                 <p>{text}</p>
             </PostingText>
         </PostingCardWrapper>
@@ -93,9 +93,6 @@ const PostingText = styled.div`
     padding-left:10px;
     gap:5px;
     width:100%;
-    .text-nickname {
-        font-weight:bold;
-    }
-    /* background:red; */
+    
 
 `

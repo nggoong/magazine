@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { db, storage } from '../../shared/firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { addDoc, collection, getDocs, query, orderBy, limit, startAfter, getDoc, where, deleteDoc, doc } from 'firebase/firestore';
+import { addDoc, collection, getDocs, query, orderBy, limit, startAfter, getDoc, where, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { fsActions } from "./fsReducer";
 
 const initialState = {
@@ -88,6 +88,13 @@ export const addPosting = createAsyncThunk('posting/addPosting', async (informat
 export const deletePosting = createAsyncThunk('posting/deletePosting', async (information) => {
     const docRef = doc(db, 'posting', information.posting_id);
     await deleteDoc(docRef);
+})
+
+export const editPosting = createAsyncThunk('posting/editPosting', async (information) => {
+    const { posting_id, new_data } = information;
+    const docRef = doc(db, 'posting', posting_id);
+    console.log(new_data);
+    await updateDoc(docRef, new_data);
 })
 
 const postingSlice = createSlice({

@@ -1,17 +1,27 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { db } from '../../shared/firebase';
+import { db, storage } from '../../shared/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import styled from 'styled-components';
-import { addPosting } from '../../redux/module/postingReducer';
+import { addPosting, editPosting } from '../../redux/module/postingReducer';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 const PostingInputs = ({ isEdit }) => {
     const [inputs, setInputs] = useState({
         image:null,
+        layout:null,
     })
+    const [isImageChanged, setIsImageChanged] = useState(false);
     const imageRef = useRef(null);
     const textAreaRef = useRef(null);
+    const edit_new_data = useRef({
+        image_url:'',
+        like:0,
+        timestamp:0,
+        user_email:'',
+        user_nickname:''
+    })
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
@@ -20,6 +30,7 @@ const PostingInputs = ({ isEdit }) => {
         let files = e.target.files;
         if(files && files[0]) {
             setInputs({
+                ...inputs,
                 image:files[0]
             })
             let reader = new FileReader();
@@ -31,11 +42,32 @@ const PostingInputs = ({ isEdit }) => {
             }
             reader.readAsDataURL(files[0]);
         }
+        setIsImageChanged(true);
     }
 
     const btnClickHandler = async () => {
-        await dispatch(addPosting({image:inputs.image, text:textAreaRef.current.value}));
-        navigate('/');
+        if(!isEdit) {
+            await dispatch(addPosting({image:inputs.image, text:textAreaRef.current.value})).catch(console.error);
+            navigate('/');
+        }
+        else {
+            const uploaded_file = await uploadBytes(ref(storage, `images/${inputs.image.name}`), inputs.image);
+
+            // 이미지 다운로드 url 저장하기 위해 받아옴
+            const file_url = await getDownloadURL(uploaded_file.ref);
+            console.log(file_url)
+            const data = {
+                like: edit_new_data.current.like,
+                timestamp: edit_new_data.current.timestamp,
+                user_email: edit_new_data.current.user_email,
+                user_nickname: edit_new_data.current.user_nickname,
+                text: textAreaRef.current.value,
+                image_url:isImageChanged? file_url:inputs.image
+            }
+            await dispatch(editPosting({posting_id:params.id, new_data:data})).catch(console.error);
+            navigate('/mypage');
+        }
+        
     }
 
     useEffect(()=> {
@@ -50,12 +82,16 @@ const PostingInputs = ({ isEdit }) => {
             }
 
             const setInputValue = async () => {
-                setInputs({...inputs, image:'set'});
                 const imageCurrent = imageRef.current;
                 const textAreaCurrent = textAreaRef.current;
                 const doc = await getPostingInfo(params.id);
+                setInputs({...inputs, image:doc.image_url});
                 imageCurrent.setAttribute('src', doc.image_url);
                 textAreaCurrent.value = doc.text;
+                edit_new_data.current.like = doc.like;
+                edit_new_data.current.timestamp = doc.timestamp;
+                edit_new_data.current.user_email = doc.user_email;
+                edit_new_data.current.user_nickname = doc.user_nickname;
             }
 
             setInputValue().catch(console.error);
@@ -72,6 +108,19 @@ const PostingInputs = ({ isEdit }) => {
             <input type='file' name='image' onChange={setThumbnail}/>
             <textarea name='posting_content' ref={textAreaRef}/>
         </InputBox>
+        <RadioButtonArea>
+        <input type="radio" id="contactChoice1"
+     name="layout" value="email" checked/>
+    <label for="contactChoice1">세로</label>
+
+    <input type="radio" id="contactChoice2"
+     name="layout" value="phone"/>
+    <label for="contactChoice2">가로</label>
+
+    <input type="radio" id="contactChoice3"
+     name="layout" value="mail"/>
+    <label for="contactChoice3">가로(역순)</label>
+        </RadioButtonArea>
         <button onClick={btnClickHandler}>확인</button>
         </InputsWrapper>
     )
@@ -114,5 +163,12 @@ const InputBox = styled.form`
     display:flex;
     flex-direction:column;
     width: 100%;
+
+`
+
+const RadioButtonArea = styled.div`
+    width:100%;
+    background:yellow;
+    /* height:10px; */
 
 `

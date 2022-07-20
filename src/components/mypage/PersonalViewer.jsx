@@ -10,7 +10,6 @@ const PersonalViewer = () => {
     const personalPostings = useSelector(state => state.posting.postings);
     useEffect(()=> {
         dispatch(personalFetchPosting());
-        // console.log(personalPostings);
 
         return(()=> {
             dispatch(postingActions.setDefaultPostings()); // 홈으로 이동할 때 스토어 비워주기.
@@ -20,8 +19,8 @@ const PersonalViewer = () => {
 
     return(
         <PersonalViewerWrapper>
-            {personalPostings.map((item, index) => <PersonalPostingCard item={item}
-            url={item.image_url} text={item.text}/>)}
+            {personalPostings.map((item) => <PersonalPostingCard item={item}
+            url={item.image_url} text={item.text} key={item.docID}/>)}
         </PersonalViewerWrapper>
     )
 }

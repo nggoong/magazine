@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import GlobalStyle from './components/GlobalStyle';
 import Home from './components/Home';
 import Header from './components/header/Header';
@@ -12,9 +12,31 @@ import styled from 'styled-components';
 import PrivateRoute from './components/users/PrivateRoute';
 import Loading from './components/Loading';
 import DetailView from './components/detail/DetailView';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './shared/firebase';
+import {userActions} from './redux/module/userReducer';
 function App() {
   const access = useSelector(state => state.user.userInfo);
-  
+  const [isLogin, setIsLogin] = useState(true);
+  const dispatch = useDispatch();
+
+  const loginCheck = async (user) => {
+    if(user) {
+      setIsLogin(true);
+    }
+    else {
+      setIsLogin(false)
+    }
+  }
+  useEffect(()=> {
+    onAuthStateChanged(auth, loginCheck);
+  }, [])
+
+  useEffect(()=> {
+    if(!isLogin) {
+      dispatch(userActions.setDefaultUserInfo());
+    }
+  }, [isLogin])
   return (
     <div className="App">
       <GlobalStyle />

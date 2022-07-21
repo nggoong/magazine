@@ -8,8 +8,7 @@ import { getDoc, doc } from 'firebase/firestore';
 
 const DetailCard = ({ id }) => {
     const dispatch = useDispatch();
-    const params = useParams();
-    const [data, setData] = useState();
+    const [data, setData] = useState({});
     const tempData = useRef({
         user_nickname:'',
         when:'',
@@ -27,25 +26,39 @@ const DetailCard = ({ id }) => {
         }
         const setValue = async () => {
             const doc = await getOneDoc();
-            tempData.current.user_nickname = doc.user_nickname;
+            let new_obj = {
+                user_nickname:doc.user_nickname,
+                when:doc.when,
+                layout:doc.layout,
+                url:doc.image_url,
+                text:doc.text
+            }
+            // tempData.current.user_nickname = doc.user_nickname;
+            // tempData.current.when = doc.when;
+            // tempData.current.layout = doc.layout;
+            // tempData.current.url = doc.image_url;
+            // tempData.current.text = doc.text;
+            setData(new_obj);
         }
+
+        setValue().catch(console.error);
     }, [])
 
     return(
         <PostingCardWrapper>
             <PostingCardHeader>
-                <p className='header-nickname'>{tempData.current.user_nickname}</p>
-                <p className='header-when'>ddd</p>
+                <p className='header-nickname'>{data?.user_nickname}</p>
+                <p className='header-when'>{data?.when}</p>
             </PostingCardHeader>
-            <PostingCardContent content_layout="ddd">
+            <PostingCardContent content_layout={data?.layout}>
             
             {/* <PostingButtons>❤</PostingButtons> */}
             <PostingText>
                 
-                <p>dfsfd</p>
+                <p>{data?.text}</p>
             </PostingText>
             <PostingCardImage>
-                <img src={id} alt="image" />
+                <img src={data?.url} alt="image" />
             </PostingCardImage>
             </PostingCardContent>
         </PostingCardWrapper>

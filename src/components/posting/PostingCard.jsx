@@ -29,7 +29,7 @@ const PostingCard = ({ item, nickname, text, url, idx, length, layout, when, doc
     }, [target])
 
     const goToDetail = () => {
-        // navigate(`/detail/${docID}`);
+        navigate(`/detail/${docID}`);
     }
 
     return(

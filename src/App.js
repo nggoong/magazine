@@ -11,6 +11,7 @@ import PersonalViewer from './components/mypage/PersonalViewer';
 import styled from 'styled-components';
 import PrivateRoute from './components/users/PrivateRoute';
 import Loading from './components/Loading';
+// import DetailView from './components/detail/DetailView';
 function App() {
   const access = useSelector(state => state.user.userInfo);
   
@@ -26,6 +27,7 @@ function App() {
             <Route path='/posting' element={<PrivateRoute component={<PostingInputs isEdit={false}/>} authenticated={access}/>}/>
             <Route path='/mypage' element={<PrivateRoute component={<PersonalViewer/>} authenticated={access}/>}/>
             <Route path='/posting/edit/:id' element={<PrivateRoute component={<PostingInputs isEdit={true}/>} authenticated={access}/>}/>
+            {/* <Route path='/detail/:id' element={<DetailView/>}/> */}
           </Routes>
         </Contents>
         

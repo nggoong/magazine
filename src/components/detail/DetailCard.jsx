@@ -1,59 +1,58 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { fetchPosting } from '../../redux/module/postingReducer';
+import { db } from '../../shared/firebase';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { getDoc, doc } from 'firebase/firestore';
 
-const PostingCard = ({ item, nickname, text, url, idx, length, layout, when, docID }) => {
-    const [target, setTarget] = useState(null);
+const DetailCard = ({ id }) => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    const onIntersect = ([entry], observer) => {
-        if(entry.isIntersecting) {
-            dispatch(fetchPosting())
-            observer.unobserve(entry.target);
-        }
-    }
+    const params = useParams();
+    const [data, setData] = useState();
+    const tempData = useRef({
+        user_nickname:'',
+        when:'',
+        layout:'',
+        url:'',
+        text:''
+    });
 
     useEffect(()=> {
-        let observer;
-        if(target) {
-            observer = new IntersectionObserver(onIntersect, {threshold:0.7});
-            observer.observe(target);
+        const getOneDoc = async () => {
+            const docRef = doc(db, 'posting', id);
+            const docSnap = await getDoc(docRef);
+            if(docSnap) return docSnap.data();
+            else return {};
         }
-
-        return(()=> {
-            observer && observer.disconnect();
-        })
-    }, [target])
-
-    const goToDetail = () => {
-        // navigate(`/detail/${docID}`);
-    }
+        const setValue = async () => {
+            const doc = await getOneDoc();
+            tempData.current.user_nickname = doc.user_nickname;
+        }
+    }, [])
 
     return(
-        <PostingCardWrapper ref={idx === length - 1 ? setTarget : null} onClick={goToDetail}>
+        <PostingCardWrapper>
             <PostingCardHeader>
-                <p className='header-nickname'>{nickname}</p>
-                <p className='header-when'>{when}</p>
+                <p className='header-nickname'>{tempData.current.user_nickname}</p>
+                <p className='header-when'>ddd</p>
             </PostingCardHeader>
-            <PostingCardContent content_layout={layout}>
+            <PostingCardContent content_layout="ddd">
             
             {/* <PostingButtons>❤</PostingButtons> */}
             <PostingText>
                 
-                <p>{text}</p>
+                <p>dfsfd</p>
             </PostingText>
             <PostingCardImage>
-                <img src={url} alt="image" />
+                <img src={id} alt="image" />
             </PostingCardImage>
             </PostingCardContent>
         </PostingCardWrapper>
     )
 }
 
-export default PostingCard;
+export default DetailCard;
 
 const PostingCardWrapper = styled.div`
     position:relative;

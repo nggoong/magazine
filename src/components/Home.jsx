@@ -17,7 +17,7 @@ const Home = () => {
     return(
         <PostingViewerWrapper>
             {postingList.map((item, index) => <PostingCard key={item.docID}
-            nickname={item.user_nickname} text={item.text} url={item.image_url} idx={index} length={postingList.length} layout={item.layout}/>)}
+            nickname={item.user_nickname} text={item.text} url={item.image_url} idx={index} length={postingList.length} layout={item.layout} when={item.when} docID={item.docID}/>)}
         </PostingViewerWrapper>
     )
 }

@@ -70,6 +70,16 @@ export const addPosting = createAsyncThunk('posting/addPosting', async (informat
     // 저장목록
     // 이미지url, text, 좋아요 수(0), 글쓴이 이메일, 글쓴이 닉네임, 타임스탬프
     // 도큐먼트 아이디는 불러올 때 넣어서 불러옴
+
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = ('0' + (today.getMonth() + 1)).slice(-2);
+    let day = ('0' + today.getDate()).slice(-2);
+    let hours = ('0' + today.getHours()).slice(-2); 
+    let minutes = ('0' + today.getMinutes()).slice(-2);
+    let seconds = ('0' + today.getSeconds()).slice(-2);
+    let when_result = year + '-' + month  + '-' + day + ' ' + hours + ':' + minutes  + ':' + seconds;
+
     const new_data = {
         image_url:file_url,
         text:text,
@@ -77,7 +87,8 @@ export const addPosting = createAsyncThunk('posting/addPosting', async (informat
         like:0,
         user_email: author_info.user_email,
         user_nickname: author_info.user_nickname,
-        timestamp:Number(new Date())
+        timestamp:Number(new Date()),
+        when: when_result
     }
 
     await addDoc(collection(db, 'posting'), new_data);

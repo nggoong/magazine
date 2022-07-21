@@ -8,11 +8,8 @@ const Home = () => {
     const postingList = useSelector(state=> state.posting.postings);
     const dispatch = useDispatch();
     useEffect(()=> {
-        // dispatch(postingActions.setDefaultPostings());
-        console.log('home effect')
         dispatch(fetchPosting());
         return(()=> {
-            console.log('home reutnr')
             dispatch(postingActions.setDefaultPostings());
             dispatch(fsActions.setDefaultLastVisible());
         })

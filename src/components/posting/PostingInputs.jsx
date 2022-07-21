@@ -128,15 +128,15 @@ const PostingInputs = ({ isEdit }) => {
         <RadioButtonArea onChange={(e)=>setInputs({...inputs, [e.target.name]:e.target.value})} isEdit={isEdit}>
         <input type="radio" id="contactChoice1"
             name="layout" value="sero"/>
-        <label for="contactChoice1">세로</label>
+        <label htmlFor="contactChoice1">세로</label>
 
         <input type="radio" id="contactChoice2"
             name="layout" value="garo"/>
-        <label for="contactChoice2">가로</label>
+        <label htmlFor="contactChoice2">가로</label>
 
         <input type="radio" id="contactChoice3"
             name="layout" value="garo_reverse"/>
-        <label for="contactChoice3">가로(역순)</label>
+        <label htmlFor="contactChoice3">가로(역순)</label>
         </RadioButtonArea>
             <button onClick={btnClickHandler}>확인</button>
         </InputsWrapper>

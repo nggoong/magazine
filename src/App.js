@@ -9,10 +9,10 @@ import Signup from './components/users/Signup';
 import PostingInputs from './components/posting/PostingInputs';
 import PersonalViewer from './components/mypage/PersonalViewer';
 import styled from 'styled-components';
-import IsLogin from './IsLogin';
+import PrivateRoute from './components/users/PrivateRoute';
 import Loading from './components/Loading';
 function App() {
-  const user = useSelector(state => state.user.userInfo);
+  const access = useSelector(state => state.user.userInfo);
   
   return (
     <div className="App">
@@ -21,11 +21,11 @@ function App() {
         <Header/>
         <Contents>
           <Routes>
-            <Route path='/' element={user?<Home/>:<Login/>}/>
-            <Route path='/member/Signup' element={<Signup/>}/>
-            <Route path='/posting' element={<PostingInputs isEdit={false}/>}/>
-            <Route path='/mypage' element={<PersonalViewer/>}/>
-            <Route path='/posting/edit/:id' element={<PostingInputs isEdit={true}/>}/>
+            <Route path='/' element={access?<Home/>:<Login/>}/>
+            <Route path='/member/Signup' element={<PrivateRoute component={<Signup/>} authenticated={access}/>}/>
+            <Route path='/posting' element={<PrivateRoute component={<PostingInputs isEdit={false}/>} authenticated={access}/>}/>
+            <Route path='/mypage' element={<PrivateRoute component={<PersonalViewer/>} authenticated={access}/>}/>
+            <Route path='/posting/edit/:id' element={<PrivateRoute component={<PostingInputs isEdit={true}/>} authenticated={access}/>}/>
           </Routes>
         </Contents>
         

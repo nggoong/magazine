@@ -4,8 +4,6 @@ import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
 
 const PostingCard = ({ item, nickname, text, url, idx, length, layout }) => {
-    console.log(layout);
-
     const [target, setTarget] = useState(null);
     const dispatch = useDispatch();
 

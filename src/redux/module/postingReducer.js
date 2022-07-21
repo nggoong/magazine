@@ -50,7 +50,6 @@ export const personalFetchPosting = createAsyncThunk('posting/fetchPosting', asy
     // orderBy와 where 같이 사용 불가 >> 직접 정렬
     new_data.sort((a, b)=> b.timestamp - a.timestamp)
 
-    console.log(new_data);
     dispatch(postingActions.toggleLoading());
 
     return new_data;

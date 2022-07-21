@@ -15,10 +15,14 @@ const PersonalPostingCard = (item, url, text) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const deleteHandler = async () => {
-    await dispatch(deletePosting({posting_id: item.item.docID}));
-    dispatch(postingActions.setDefaultPostings());
-    dispatch(fsActions.setDefaultLastVisible());
-    dispatch(personalFetchPosting());
+    const result = window.confirm('정말 삭제하시겠습니까?');
+    if(result) {
+      await dispatch(deletePosting({posting_id: item.item.docID}));
+      dispatch(postingActions.setDefaultPostings());
+      dispatch(fsActions.setDefaultLastVisible());
+      dispatch(personalFetchPosting());
+    }
+    else return;
   }
 
     return (

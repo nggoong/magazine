@@ -22,7 +22,7 @@ function App() {
         <Contents>
           <Routes>
             <Route path='/' element={access?<Home/>:<Login/>}/>
-            <Route path='/member/Signup' element={<PrivateRoute component={<Signup/>} authenticated={access}/>}/>
+            <Route path='/member/Signup' element={<Signup/>}/>
             <Route path='/posting' element={<PrivateRoute component={<PostingInputs isEdit={false}/>} authenticated={access}/>}/>
             <Route path='/mypage' element={<PrivateRoute component={<PersonalViewer/>} authenticated={access}/>}/>
             <Route path='/posting/edit/:id' element={<PrivateRoute component={<PostingInputs isEdit={true}/>} authenticated={access}/>}/>

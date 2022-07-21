@@ -24,3 +24,11 @@ yarn-error.log*
 
 
 /src/shared
+
+# firebase
+/.firebase
+/.firebaserc
+/firebase.json
+/firestore.indexes.json
+/firestore.rules
+/storage.rules

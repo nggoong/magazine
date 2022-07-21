@@ -65,6 +65,7 @@ const PostingCardWrapper = styled.div`
     margin-bottom:20px;
     user-select:none;
     background:white;
+    cursor:pointer;
 `
 const PostingCardContent = styled.div`
 ${props=> {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { fetchPosting } from '../../redux/module/postingReducer';
+import { fetchPosting, postingActions } from '../../redux/module/postingReducer';
 import { db } from '../../shared/firebase';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -9,18 +9,13 @@ import { getDoc, doc } from 'firebase/firestore';
 const DetailCard = ({ id }) => {
     const dispatch = useDispatch();
     const [data, setData] = useState({});
-    const tempData = useRef({
-        user_nickname:'',
-        when:'',
-        layout:'',
-        url:'',
-        text:''
-    });
 
     useEffect(()=> {
         const getOneDoc = async () => {
+            dispatch(postingActions.toggleLoading());
             const docRef = doc(db, 'posting', id);
             const docSnap = await getDoc(docRef);
+            dispatch(postingActions.toggleLoading());
             if(docSnap) return docSnap.data();
             else return {};
         }
@@ -140,7 +135,7 @@ const PostingCardImage = styled.div`
 const PostingButtons = styled.div`
     width:100%;
     margin-bottom:10px;
-    background:yellow;
+
 `
 
 const PostingText = styled.div`

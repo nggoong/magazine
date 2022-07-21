@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { personalFetchPosting, postingActions } from '../../redux/module/postingReducer';
 import { fsActions } from '../../redux/module/fsReducer';
 import PersonalPostingCard from './PersonalPostingCard';
+import NoData from '../NoData';
 
 const PersonalViewer = () => {
     const dispatch = useDispatch();
@@ -17,12 +18,19 @@ const PersonalViewer = () => {
         })
     }, [])
 
-    return(
-        <PersonalViewerWrapper>
-            {personalPostings.map((item) => <PersonalPostingCard item={item}
-            url={item.image_url} text={item.text} key={item.docID}/>)}
-        </PersonalViewerWrapper>
-    )
+    if(!personalPostings.length) {
+        return(
+            <NoData/>
+        )
+    }
+    else {
+        return(
+            <PersonalViewerWrapper>
+                {personalPostings.map((item) => <PersonalPostingCard item={item}
+                url={item.image_url} text={item.text} key={item.docID}/>)}
+            </PersonalViewerWrapper>
+        )
+    }
 }
 
 export default PersonalViewer;

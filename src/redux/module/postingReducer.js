@@ -5,10 +5,12 @@ import { addDoc, collection, getDocs, query, orderBy, limit, startAfter, getDoc,
 import { fsActions } from "./fsReducer";
 
 const initialState = {
+    isLoading:false,
     postings: []
 }
 
 export const fetchPosting = createAsyncThunk('posting/fetchPosting', async (_, {getState, dispatch}) => {
+    dispatch(postingActions.toggleLoading());
     const postingCollection = collection(db, 'posting');
     const fsState = getState().fs.lastVisible;
     let res;
@@ -30,16 +32,16 @@ export const fetchPosting = createAsyncThunk('posting/fetchPosting', async (_, {
         new_data.push(new_obj);
     })
 
+    dispatch(postingActions.toggleLoading());
     return new_data;
 })
 
 export const personalFetchPosting = createAsyncThunk('posting/fetchPosting', async (_, {getState, dispatch}) => {
+    dispatch(postingActions.toggleLoading());
     const postingCollection = collection(db, 'posting');
     let res;
     const user_email = getState().user.userInfo.user_email;
-    console.log(user_email);
     res = await(getDocs(query(postingCollection, where('user_email', '==', user_email)))) // orderBy와 where 같이 못씀..
-    console.log(res);
     let new_data = [];
     res.forEach((doc)=> {
         let new_obj = {...doc.data(), docID:doc.id};
@@ -49,11 +51,13 @@ export const personalFetchPosting = createAsyncThunk('posting/fetchPosting', asy
     new_data.sort((a, b)=> b.timestamp - a.timestamp)
 
     console.log(new_data);
+    dispatch(postingActions.toggleLoading());
 
     return new_data;
 })
 
 export const addPosting = createAsyncThunk('posting/addPosting', async (information, {getState, dispatch})=> {
+    dispatch(postingActions.toggleLoading());
     const {image, text, layout} = information;
     const uploaded_file = await uploadBytes(ref(storage, `images/${image.name}`), image);
 
@@ -78,24 +82,24 @@ export const addPosting = createAsyncThunk('posting/addPosting', async (informat
     }
 
     await addDoc(collection(db, 'posting'), new_data);
-
     // 초기화는 컴포넌트에서 useEffect로 처리
-
-    
-
+    dispatch(postingActions.toggleLoading());
     // return new_data;
 })
 
-export const deletePosting = createAsyncThunk('posting/deletePosting', async (information) => {
+export const deletePosting = createAsyncThunk('posting/deletePosting', async (information, {dispatch}) => {
+    dispatch(postingActions.toggleLoading());
     const docRef = doc(db, 'posting', information.posting_id);
     await deleteDoc(docRef);
+    dispatch(postingActions.toggleLoading());
 })
 
-export const editPosting = createAsyncThunk('posting/editPosting', async (information) => {
+export const editPosting = createAsyncThunk('posting/editPosting', async (information, {dispatch}) => {
+    dispatch(postingActions.toggleLoading());
     const { posting_id, new_data } = information;
     const docRef = doc(db, 'posting', posting_id);
-    console.log(new_data);
     await updateDoc(docRef, new_data);
+    dispatch(postingActions.toggleLoading());
 })
 
 const postingSlice = createSlice({
@@ -104,6 +108,9 @@ const postingSlice = createSlice({
     reducers: {
         setDefaultPostings:(state)=> {
             state.postings = [];
+        },
+        toggleLoading:(state) => {
+            state.isLoading = !state.isLoading;
         }
     },
     extraReducers: {

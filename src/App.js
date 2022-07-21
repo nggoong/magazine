@@ -10,16 +10,15 @@ import PostingInputs from './components/posting/PostingInputs';
 import PersonalViewer from './components/mypage/PersonalViewer';
 import styled from 'styled-components';
 import IsLogin from './IsLogin';
+import Loading from './components/Loading';
 function App() {
   const user = useSelector(state => state.user.userInfo);
-  const navigate = useNavigate();
   
   return (
     <div className="App">
       <GlobalStyle />
-        {/* <IsLogin> */}
+      <Loading/>
         <Header/>
-        {/* <Suspense fallback={<Loading/>}> */}
         <Contents>
           <Routes>
             <Route path='/' element={user?<Home/>:<Login/>}/>
@@ -29,8 +28,7 @@ function App() {
             <Route path='/posting/edit/:id' element={<PostingInputs isEdit={true}/>}/>
           </Routes>
         </Contents>
-        {/* </Suspense> */}
-        {/* </IsLogin> */}
+        
     </div>
   );
 }

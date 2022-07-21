@@ -5,6 +5,10 @@ import { loginFB } from '../../redux/module/userReducer';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+const check = (inputs) => {
+    if(inputs.email && inputs.password) return true;
+    return false;
+}
 
 const Login = () => {
     const [inputs, setInputs] = useState({
@@ -25,10 +29,6 @@ const Login = () => {
 
     const loginBtnClickHandler = () => {
         const { email, password } = inputs;
-        if(!email || !password) {
-            alert('아이디와 비밀번호를 모두 채워주세요!!');
-            return;
-        }
         try {
             dispatch(loginFB({email:email, password:password}));
             navigate('/');
@@ -51,7 +51,7 @@ const Login = () => {
                 <input type='email' ref={firstInputRef} placeholder='email' name='email' value={inputs.email} onChange={inputChangeHandler}/>
                 <input type='password' placeholder='password' name='password' value={inputs.password} onChange={inputChangeHandler}/>
                 <div className='go-signup-link'><LinkArea><Link to='/member/signup'>회원이 아니신가요?</Link></LinkArea></div>
-                <button onClick={loginBtnClickHandler}>로그인</button>
+                <LoginButton onClick={loginBtnClickHandler} disabled={check(inputs) == false? true:false}>로그인</LoginButton>
             </LoginBox>
         </LoginWrapper>
 
@@ -125,4 +125,19 @@ export const LoginBox = styled.div`
 
 const LinkArea = styled.div`
     padding:10px;
+`
+
+const LoginButton = styled.button`
+
+    width:100%;
+    border-radius:10px;
+    height:40px;
+    background:#3d5afe;
+    color:white;
+    font-weight: bold;
+    cursor:pointer;
+    :disabled {
+        background:gray;
+    }
+
 `

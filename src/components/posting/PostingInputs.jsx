@@ -138,7 +138,7 @@ const PostingInputs = ({ isEdit }) => {
             name="layout" value="garo_reverse"/>
         <label htmlFor="contactChoice3">가로(역순)</label>
         </RadioButtonArea>
-            <button onClick={btnClickHandler}>확인</button>
+            <SubmitButton onClick={btnClickHandler}>확인</SubmitButton>
         </InputsWrapper>
     )
 }
@@ -159,6 +159,22 @@ const InputsWrapper = styled.div`
         font-weight:bold;
         cursor:pointer;
     }
+`
+
+const SubmitButton = styled.button`
+        display:block;
+        margin:0 auto;
+        width:100px;
+        border-radius:20px;
+        height:30px;
+        margin-top:20px;
+        background:#3d5afe;
+        color:white;
+        font-weight:bold;
+        cursor:pointer;
+        :disabled {
+            background:gray;
+        }
 `
 
 const ImageBox = styled.div`

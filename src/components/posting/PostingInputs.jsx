@@ -15,6 +15,10 @@ const validation = (inputs, text) => {
 
     return true;
 }
+const check = (inputs, text) => {
+    if(inputs.image && inputs.layout && text.current.value) return true;
+    return false;
+}
 
 const PostingInputs = ({ isEdit }) => {
     const [inputs, setInputs] = useState({
@@ -138,7 +142,7 @@ const PostingInputs = ({ isEdit }) => {
             name="layout" value="garo_reverse"/>
         <label htmlFor="contactChoice3">가로(역순)</label>
         </RadioButtonArea>
-            <SubmitButton onClick={btnClickHandler}>확인</SubmitButton>
+            <SubmitButton onClick={btnClickHandler} disabled={check(inputs, textAreaRef) == false? true:false}>확인</SubmitButton>
         </InputsWrapper>
     )
 }

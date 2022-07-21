@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+# 로그인 사용자용 매거진 어플리케이션
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 구현 내용
 
-## Available Scripts
+### 1. 회원가입 및 로그인
 
-In the project directory, you can run:
+* 파이어베이스의 Auth를 사용하여 회원가입, 로그인 기능 구현
+* 로그인 하지 않은 사용자에 한해 회원가입, 로그인 페이지 이외의 페이지 강제 접근(주소창 입력) 제한
 
-### `npm start`
+### 2. 게시글 작성
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+* 이미지 미리보기 기능 구현
+* 게시글의 레이아웃을 사용자가 선택 가능하도록 구현
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 3. 게시글 관련 기능
 
-### `npm test`
+아래의 기능은 파이어스토어를 연동하여 구현
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* 전체 게시글 불러오기 기능 구현
+* 게시글 작성 및 추가 기능 구현
+* 게시글 수정 기능 구현
+* 게시글 삭제 기능 구현
 
-### `npm run build`
+### 4. 마이페이지
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* 로그인한 사용자가 자신이 쓴 게시글만 모아서 볼 수 있도록 구현
+* 게시글 수정 기능
+* 게시글 삭제 기능
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 5. 페이지네이션
 
-### `npm run eject`
+* 전체 게시글을 보여주는 페이지 무한스크롤 구현
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 6. 반응형 디자인
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* mobile-first 로 반응형 디자인 구현
+* 사용자가 결정한 게시글 레이아웃을 모바일 환경에서는 세로 레이아웃으로 통일(가로 레이아웃은 모바일 환경에서 가독성이 떨어진다고 판단) 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 7. 배포하기
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+* firebase로 배포
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## skill stack🙂
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. React(hook)
+2. Redux-toolkit, thunk
+3. intersection observer API
+3. styled-components
+4. material UI
+5. react-router-dom
+6. firestore
+7. firebase Auth
+8. firebase(deploy)

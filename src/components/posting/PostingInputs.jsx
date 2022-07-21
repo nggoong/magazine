@@ -150,6 +150,14 @@ const InputsWrapper = styled.div`
     button {
         display:block;
         margin:0 auto;
+        width:100px;
+        border-radius:20px;
+        height:30px;
+        margin-top:20px;
+        background:#3d5afe;
+        color:white;
+        font-weight:bold;
+        cursor:pointer;
     }
 `
 

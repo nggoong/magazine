@@ -28,9 +28,9 @@ const Header = () => {
             <HeaderContents>
                 <HeaderLogo/>
                 <HeaderActions>
-                    <p><Link to='/posting'><CgAddR/></Link></p>
-                    <p onClick={logoutBtnClickHandler}><IoMdLogOut/></p>
-                    <p><Link to='/mypage'><IoMdContact/></Link></p>
+                    <p><Link to='/posting'><CgAddR/><span>ADD</span></Link></p>
+                    <p onClick={logoutBtnClickHandler}><IoMdLogOut/><span>LOGOUT</span></p>
+                    <p><Link to='/mypage'><IoMdContact/><span>MYPAGE</span></Link></p>
                 </HeaderActions>
             </HeaderContents>
         </HeaderWrapper>
@@ -57,14 +57,21 @@ const HeaderWrapper = styled.div`
         font-size:28px;
         display:flex;
         align-items:center;
+        flex-direction:column;
         cursor:pointer;
         a {
             display:flex;
             justify-content:center;
             align-items:center;
+            flex-direction:column;
             text-decoration:none;
             color:black;
+
+            
         }
+        span {
+                font-size:10px;
+            }
         
     }
 `
